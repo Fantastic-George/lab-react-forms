@@ -9,40 +9,79 @@ import studentsData from "./assets/students.json";
 function App() {
   const [students, setStudents] = useState(studentsData);
 
+    const [formData, setFormData] = useState({
+    fullName: "",
+    image: "",
+    phone: 0,
+    email: "",
+    program: "-- None --",
+    graduationYear: 2023,
+    graduated: false,
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+ 
+    const newStudent = {
+      ...formData,
+     
+      id: Date.now(),
+    };
+
+  
+    setStudents([...students, newStudent]);
+    
+  
+    setFormData({
+      firstName: "",
+      lastName: "",
+      image: "",
+      phone: 0,
+      email: "",
+      program: "-- None --",
+      graduationYear: 2023,
+      graduated: false,
+    });
+  };
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   return (
     <div className="App pt-20">
       <Navbar />
 
       {/* FORM */}
-      <form>
+      <form onSubmit={handleSubmit}>
         <span>Add a Student</span>
         <div>
           <label>
             Full Name
-            <input name="fullName" type="text" placeholder="Full Name" />
+            <input name="fullName" type="text" placeholder="Full Name" value={formData.fullName} onChange={handleChange} />
           </label>
 
           <label>
             Profile Image
-            <input name="image" type="url" placeholder="Profile Image" />
+            <input name="image" type="url" placeholder="Profile Image" value={formData.image} onChange={handleChange} />
           </label>
 
           <label>
             Phone
-            <input name="phone" type="tel" placeholder="Phone" />
+            <input name="phone" type="tel" placeholder="Phone" value={formData.phone} onChange={handleChange} />
           </label>
 
           <label>
             Email
-            <input name="email" type="email" placeholder="Email" />
+            <input name="email" type="email" placeholder="Email" value={formData.email} onChange={handleChange} />
           </label>
         </div>
 
         <div>
           <label>
             Program
-            <select name="program">
+            <select name="program" value={formData.program} onChange={handleChange}>
               <option value="">-- None --</option>
               <option value="Web Dev">Web Dev</option>
               <option value="UXUI">UXUI</option>
